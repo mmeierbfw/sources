@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2014.08.05 13:36:50.571.pas,C:\Users\jovani\Documents\RAD Studio\Projekte\Unit1.pas=C:\Users\jovani\Documents\sources\uDBConnector.pas</Transaction>
+    <Transaction>2014.08.05 13:36:50.571.dfm,C:\Users\jovani\Documents\RAD Studio\Projekte\Unit1.dfm=C:\Users\jovani\Documents\sources\uDBConnector.dfm</Transaction>
+    <Transaction>2014.08.05 14:18:01.161.dproj,C:\Users\jovani\Documents\RAD Studio\Projekte\Project1.dproj=C:\Users\jovani\Documents\sources\PMysql.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

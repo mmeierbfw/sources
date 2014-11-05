@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2014.07.30 13:47:36.717.pas,C:\Users\jovani\Documents\RAD Studio\Projekte\Unit1.pas=C:\Users\jovani\Documents\sources\uFormZwischenablesung.pas</Transaction>
+    <Transaction>2014.07.30 13:47:36.717.dfm,C:\Users\jovani\Documents\RAD Studio\Projekte\Unit1.dfm=C:\Users\jovani\Documents\sources\uFormZwischenablesung.dfm</Transaction>
+    <Transaction>2014.07.30 13:47:55.624.dproj,C:\Users\jovani\Documents\RAD Studio\Projekte\Project1.dproj=C:\Users\jovani\Documents\sources\Zwischenablesung.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
