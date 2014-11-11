@@ -9,7 +9,7 @@ uses
   Vcl.Mask, umaskedit, System.Generics.collections, uutils, strutils,
   NxPageControl, NxControls6, NxEdit6, Vcl.ComCtrls, NxScrollControl, NxToolBox,
   NxLinkMenu, Vcl.Imaging.pngimage, NxCustomGridControl, NxCustomGrid, NxDBGrid,
-  NxColumns, NxDBColumns;
+  NxColumns, NxDBColumns, uconstants;
 
 type
   Tframeauftragsdaten = class(TFrame)
@@ -90,11 +90,13 @@ type
     Label17: TLabel;
     dpabrechnungsende: TNxDatePicker;
     enutzername2: TfEdit;
-    NxTimePicker1: TNxTimePicker;
-    NxHeaderPanel1: TNxHeaderPanel;
     hptermin: TNxHeaderPanel;
     cbableser: TfComboBox;
+    cberreicht: TNxCheckBox;
     procedure FrameResize(Sender: TObject);
+    function calcleftchars: integer;
+
+    procedure checkinput(var Key: Word);
     procedure notizenKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure enutzernummerExit(Sender: TObject);
@@ -117,12 +119,19 @@ type
     procedure hpterminExpand(Sender: TObject; var Accept: Boolean);
     procedure hpterminCollapse(Sender: TObject; var Accept: Boolean);
     procedure cbableserChange(Sender: TObject);
+    procedure notizenExit(Sender: TObject);
+    procedure notizenChange(Sender: TObject);
+    procedure mitHAMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: integer);
   private
     writtenchars: integer;
     // function getmonth(monthasstring: string): string;
     procedure createmonthdic;
-    function getmonthstring(mon: integer): string;
   public
+
+    function getmonthstring(mon: integer): string;
+    function getstart: string;
+    function getende: string;
     function getausführungstermin: string;
     procedure getinshape(panel: TPanel; shape: TShape);
     procedure resetpage;
@@ -132,7 +141,7 @@ type
   TDictconstant = array [0 .. 11, 0 .. 1] of string;
 
 const
-  abschar = 612;
+  abschar                      = 612;
   dict_constant: TDictconstant = (('Jan', '1'), ('Feb', '2'), ('Mar', '3'),
     ('Apr', '4'),
 
@@ -168,24 +177,45 @@ end;
 
 procedure Tframeauftragsdaten.mitHAClick(Sender: TObject);
 var
-  enable: boolean;
+  enable: Boolean;
 begin
-  enable := not(externGeplant.Checked or mitHA.Checked);
+  enable         := not(externGeplant.Checked or mitHA.Checked);
   nxdate.Enabled := enable;
 
-  evon.Enabled := enable;
-  ebis.Enabled := enable;
+  evon.Enabled  := enable;
+  ebis.Enabled  := enable;
   edate.Enabled := enable;
   if Sender = externGeplant then begin
     mitHA.Checked := false;
   end else begin
     externGeplant.Checked := false;
   end;
+
+  // evon.font.color := clyellow;
+  // if enable then begin
+  // evon.font.color  := schriftgrau;
+  // ebis.font.color  := schriftgrau;
+  // edate.font.color := schriftgrau;
+  // end else begin
+  // evon.font.color  := clred;
+  // ebis.font.color  := clInactiveCaption;
+  // edate.font.color := clInactiveCaption;
+  // end;
+  // evon.update;
+  // ebis.update;
+  // edate.update;
+
+end;
+
+procedure Tframeauftragsdaten.mitHAMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: integer);
+begin
+  mitHAClick(Sender);
 end;
 
 procedure Tframeauftragsdaten.cbableserChange(Sender: TObject);
 begin
-//  hpmonteurtermine.Expanded := true;
+  // hpmonteurtermine.Expanded := true;
 end;
 
 procedure Tframeauftragsdaten.createmonthdic;
@@ -212,17 +242,17 @@ end;
 
 procedure Tframeauftragsdaten.eliegenschaftExit(Sender: TObject);
 var
-  len: integer;
-  lg: string;
+  len  : integer;
+  lg   : string;
   kunde: string;
 begin
   lg := eliegenschaft.Text;
   if length(lg) = 0 then exit;
   kunde := formmain.getkundennummer;
   if (length(lg) <= 5) then begin
-    len := length(kunde);
-    len := 7 - len;
-    lg := kunde + StringOfChar('0', len - length(lg)) + lg;
+    len                := length(kunde);
+    len                := 7 - len;
+    lg                 := kunde + StringOfChar('0', len - length(lg)) + lg;
     eliegenschaft.Text := lg;
   end;
 end;
@@ -230,18 +260,28 @@ end;
 procedure Tframeauftragsdaten.enutzernummerExit(Sender: TObject);
 begin
   // enutzernummer.Text := Format('%.3d', [strtoint(enutzerummer.text)]);
-  try enutzernummer.Text := Format('%.3d', [strtoint(enutzernummer.Text)]);
+  try enutzernummer.Text    := Format('%.3d', [strtoint(enutzernummer.Text)]);
   except enutzernummer.Text := Format('%.3d', [0]);
   end;
 end;
 
 procedure Tframeauftragsdaten.evonExit(Sender: TObject);
-var time: string;
+var
+  time: string;
 begin
-  time := (sender as tfedit).Text;
-  if not length(time) = 4 then exit;
-  time := copy(time, 1, 2) + ':' + copy(time, 3,2);
-  (Sender as tfedit).Text := time;
+  time                          := (Sender as TfEdit).Text;
+  if length(time) = 2 then time := time + '00';
+  if not(length(time) = 4) then exit;
+  time                    := copy(time, 1, 2) + ':' + copy(time, 3, 2);
+  (Sender as TfEdit).Text := time;
+
+  if (Sender as TfEdit) = ebis then begin
+    if evon.Text > ebis.Text then begin
+      Showmessage('Endzeit muss nach Startzeit liegen');
+      ebis.SetFocus;
+    end;
+
+  end;
 
 end;
 
@@ -253,25 +293,42 @@ end;
 
 function Tframeauftragsdaten.getausführungstermin: string;
 var
-  d, m, y: integer;
-  helper: string;
+  d, m, Y: integer;
+  helper : string;
 begin
-  createmonthdic;
-  y := strtoint(copy(Lmy.Caption, 7, 2));
-  helper := copy(Lmy.Caption, 1, 3);
-  m := strtoint(monthdict.Items[helper]);
-  d := strtoint(ldayOM.Caption);
-  Result := inttostr(y) + '.' + Format('%.2d', [m]) + '.' +
-    Format('%0.2d', [d]);
+  // createmonthdic;
+  // y      := strtoint(copy(Lmy.Caption, 7, 2));
+  // helper := copy(Lmy.Caption, 1, 3);
+  // m      := strtoint(monthdict.Items[helper]);
+  // helper := ldayOM.Caption;
+  // try d  := strtoint(helper);
+  // except
+  // if helper = '' then d                 := 0;
+  // if AnsiStartsText('0', helper) then d := strtoint(copy(helper, 1, 1));
+  //
+  // end;
+  // Result := inttostr(y) + '.' + Format('%.2d', [m]) + '.' +
+  // Format('%0.2d', [d]);
+  if not(externGeplant.Checked or mitHA.Checked) then Result := edate.Text;
+  if externGeplant.Checked then Result := 'extern geplant';
+  if mitHA.Checked then Result := 'mit Hauptablesung';
+
+end;
+
+function Tframeauftragsdaten.getende: string;
+begin
+  if not(externGeplant.Checked or mitHA.Checked) then Result := ebis.Text;
+  if externGeplant.Checked then Result := 'extern geplant';
+  if mitHA.Checked then Result := 'mit Hauptablesung';
 
 end;
 
 procedure Tframeauftragsdaten.getinshape(panel: TPanel; shape: TShape);
 begin
-  shape.Left := panel.Left - 1;
-  shape.Top := panel.Top - 1;
+  shape.Left   := panel.Left - 1;
+  shape.Top    := panel.Top - 1;
   shape.Height := panel.Height + 2;
-  shape.Width := panel.Width + 2;
+  shape.Width  := panel.Width + 2;
 end;
 //
 // function Tframeauftragsdaten.getmonth(monthasstring: string): string;
@@ -284,7 +341,7 @@ function Tframeauftragsdaten.getmonthstring(mon: integer): string;
 var
   // list: Tlist<string>;
   helper1, helper2: string;
-  elem: string;
+  elem            : string;
 begin
   createmonthdic;
   for elem in monthdict.Keys do begin
@@ -295,17 +352,67 @@ begin
   end;
 end;
 
+function Tframeauftragsdaten.getstart: string;
+begin
+  if not(externGeplant.Checked or mitHA.Checked) then Result := evon.Text;
+  if externGeplant.Checked then Result := 'extern geplant';
+  if mitHA.Checked then Result := 'mit Hauptablesung';
+
+end;
+
+procedure Tframeauftragsdaten.notizenChange(Sender: TObject);
+var
+  Key: Word;
+begin
+  Key := VK_RETURN;
+  checkinput(Key);
+end;
+
+procedure Tframeauftragsdaten.notizenExit(Sender: TObject);
+var
+  Key: Word;
+begin
+  Key := VK_RETURN;
+  checkinput(Key);
+end;
+
+// #######################################
 procedure Tframeauftragsdaten.notizenKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var
   charleft: integer;
 begin
-  Inc(writtenchars);
-  charleft := abschar - writtenchars;
-  lcharleft.Caption := Format(charlefttext, [charleft]);
+  checkinput(Key);
+end;
+
+// #######################################
+procedure Tframeauftragsdaten.checkinput(var Key: Word);
+var
+  charleft: integer;
+begin
+  charleft := calcleftchars;
+  if charleft <= 0 then begin
+    if Key = VK_BACK then exit;
+    notizen.font.color := clred;
+    Key                := ord(#0);
+    exit;
+  end;
+  notizen.font.color := notizen.FontColorOnEnter;
 
 end;
 
+// #######################
+function Tframeauftragsdaten.calcleftchars: integer;
+var
+  charleft: integer;
+begin
+  writtenchars      := length(notizen.Lines.Text) - (2 * notizen.Lines.Count);
+  Result            := abschar - writtenchars;
+  lcharleft.Caption := Format(charlefttext, [Result]);
+
+end;
+
+// #########################
 procedure Tframeauftragsdaten.NxButton1Click(Sender: TObject);
 begin
   resetpage;
@@ -313,27 +420,27 @@ end;
 
 procedure Tframeauftragsdaten.NxButton2Click(Sender: TObject);
 var
-  date: Tdate;
+  date            : Tdate;
   jahr, monat, tag: Word;
 begin
   if mitHA.Checked then begin
     ldayOM.Caption := '';
 
-    Lmy.Caption := '';
-    lvon.Caption := 'mit Hauptablesung';
-    lvon.Alignment := TAlignment.taRightJustify;
-    lvon.Left := 0;
+    Lmy.Caption      := '';
+    lvon.Caption     := 'mit Hauptablesung';
+    lvon.Alignment   := TAlignment.taRightJustify;
+    lvon.Left        := 0;
     pager.ActivePage := NxTabSheet1;
     pdivisor.Visible := false;
     exit;
   end;
   if externGeplant.Checked then begin
-    ldayOM.Caption := '';
-    Lmy.Caption := '';
-    lvon.Caption := 'extern geplant';
-    lvon.Alignment := TAlignment.taRightJustify;
+    ldayOM.Caption   := '';
+    Lmy.Caption      := '';
+    lvon.Caption     := 'extern geplant';
+    lvon.Alignment   := TAlignment.taRightJustify;
     pdivisor.Visible := false;
-    lvon.Left := 0;
+    lvon.Left        := 0;
     pager.ActivePage := NxTabSheet1;
     exit;
   end;
@@ -341,30 +448,29 @@ begin
   date := nxdate.SelectedDate;
   DecodeDate(date, jahr, monat, tag);
   pdivisor.Visible := true;
-  Lmy.Caption := getmonthstring(monat) + ' ' + inttostr(jahr);
-  ldayOM.Caption := inttostr(tag);
-  if AnsiStartsText('  ', evon.Text) then begin
+  Lmy.Caption      := getmonthstring(monat) + ' ' + inttostr(jahr);
+  ldayOM.Caption   := inttostr(tag);
+  if ('' = evon.Text) then begin
     lvon.Visible := false;
-//    lbis.Visible := false;
+    // lbis.Visible := false;
     pager.ActivePage := NxTabSheet1;
     // ptermindetails.Hide;
     exit;
   end;
 
-  if not(AnsiStartsText('  ', ebis.Text)) then begin
-    lvon.Caption := 'von ' + evon.Text;
-//    lbis.Caption := 'bis  ' + ebis.Text;
-//    lbis.Visible := true;
+  if not(ebis.Text = '') then begin
+    lvon.Caption   := evon.Text;
+    lvon.Caption   := lvon.Caption + ' - ' + ebis.Text;
     lvon.Alignment := TAlignment.taLeftJustify;
-//    lbis.Alignment := TAlignment.taLeftJustify;
-    lvon.Left := 67;
-//    lbis.Left := 67;
+    // lbis.Alignment := TAlignment.taLeftJustify;
+    lvon.Left := 2;
+    // lbis.Left := 67;
   end else begin
-    lvon.Alignment := TAlignment.taCenter;
+
     // lbis.Alignment := TAlignment.taLeftJustify;
     lvon.Caption := evon.Text;
-//    lbis.Visible := false;
-    lvon.Left := 90;
+    // lbis.Visible := false;
+    lvon.Left := 0;
   end;
   pager.ActivePage := NxTabSheet1;
 end;
@@ -403,13 +509,14 @@ end;
 
 procedure Tframeauftragsdaten.hpterminCollapse(Sender: TObject;
   var Accept: Boolean);
-var hp: TNxHeaderPanel;
+var
+  hp: TNxHeaderPanel;
 begin
-  hp := (Sender as TNxHeaderPanel);
-  hp.Align := TAlign.alNone;
+  hp        := (Sender as TNxHeaderPanel);
+  hp.Align  := TAlign.alNone;
   hp.Height := 20;
-  hp.Width := 29;
-  hp.Left := 19;
+  hp.Width  := 29;
+  hp.Left   := 19;
 
 end;
 
@@ -423,8 +530,8 @@ procedure Tframeauftragsdaten.NxMonthCalendar2Change(Sender: TObject);
 var
   datestring: string;
 begin
-  datestring := DateToStr(NxMonthCalendar2.SelectedDate);
-  datestring := formatedatefrom4jto2j(datestring);
+  datestring     := DateToStr(NxMonthCalendar2.SelectedDate);
+  datestring     := formatedatefrom4jto2j(datestring);
   einfodate.Text := datestring;
 end;
 
@@ -450,9 +557,9 @@ begin
   etelefon.Clear;
   cbauftragstyp.Clear;
   notizen.Clear;
-  todstring := DateToStr(now);
+  todstring      := DateToStr(now);
   ldayOM.Caption := copy(todstring, 1, 2);
-  Lmy.Caption := getmonthstring(strtoint(copy(todstring, 4, 2))) + ' ' +
+  Lmy.Caption    := getmonthstring(strtoint(copy(todstring, 4, 2))) + ' ' +
     copy(todstring, 7, 4);
   dperstellungsdatum.Text := DateToStr(now);
 
@@ -468,18 +575,18 @@ procedure Tframeauftragsdaten.tfdateExit(Sender: TObject);
 var
 
   day, month, year: integer;
-  Mask: TMaskEdit;
-  date: string;
-  valid: boolean;
+  Mask            : TMaskEdit;
+  date            : string;
+  valid           : Boolean;
 begin
   valid := true;
-  Mask := Sender as TMaskEdit;
-  date := Mask.Text;
+  Mask  := Sender as TMaskEdit;
+  date  := Mask.Text;
   if AnsiStartsText('  ', date) or AnsiStartsText('__', date) then exit;
 
-  day := strtoint(trimright(copy(date, 0, 2)));
+  day   := strtoint(trimright(copy(date, 0, 2)));
   month := strtoint(trimright(copy(date, 4, 2)));
-  year := strtoint(trimright(copy(date, 7, 4)));
+  year  := strtoint(trimright(copy(date, 7, 4)));
 
   if (month < 1) or (month > 12) then begin
     valid := false;
@@ -499,18 +606,18 @@ begin
       end;
   end;
   if not valid then begin
-    Mask.Color := clred;
+    Mask.color := clred;
     try Mask.SetFocus;
     except
 
     end;
     Mask.SelStart := 0;
   end
-  else Mask.Color := clWhite;
+  else Mask.color := clWhite;
 
   try
     nxdate.date := strtodate(edate.Text);
-    nxdate.Update;
+    nxdate.update;
   except
     ;
   end;

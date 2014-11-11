@@ -1,7 +1,7 @@
 ﻿object frameauftragsdaten: Tframeauftragsdaten
   Left = 0
   Top = 0
-  Width = 1028
+  Width = 784
   Height = 304
   Align = alLeft
   Color = 14933977
@@ -15,12 +15,11 @@
   ParentFont = False
   TabOrder = 0
   OnResize = FrameResize
-  ExplicitHeight = 650
   object pager: TNxPageControl
     AlignWithMargins = True
     Left = 3
     Top = 3
-    Width = 1022
+    Width = 778
     Height = 298
     ActivePage = NxTabSheet3
     ActivePageIndex = 2
@@ -33,7 +32,6 @@
     Options = [pgBoldActiveTab, pgCloseButton]
     Spacing = 0
     TabHeight = 17
-    ExplicitWidth = 781
     object NxTabSheet1: TNxTabSheet
       Caption = 'NxTabSheet1'
       PageIndex = 0
@@ -43,12 +41,10 @@
       TabFont.Height = -11
       TabFont.Name = 'Tahoma'
       TabFont.Style = []
-      ExplicitTop = 0
-      ExplicitWidth = 781
       object FlowPanel1: TFlowPanel
         Left = 0
         Top = 0
-        Width = 1022
+        Width = 778
         Height = 277
         Align = alClient
         BevelOuter = bvNone
@@ -56,7 +52,6 @@
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitWidth = 781
         object pliegenschaft: TPanel
           Left = 0
           Top = 0
@@ -88,8 +83,8 @@
             Layout = tlCenter
           end
           object Label2: TLabel
-            Left = 614
-            Top = 5
+            Left = 617
+            Top = 3
             Width = 31
             Height = 13
             Caption = 'Datum'
@@ -170,7 +165,7 @@
             ColorNotFocused = 11776947
           end
           object dperstellungsdatum: TNxDatePicker
-            Left = 651
+            Left = 654
             Top = 2
             Width = 122
             Height = 21
@@ -456,7 +451,7 @@
             Layout = tlCenter
           end
           object lausfürhung: TLabel
-            Left = 644
+            Left = 638
             Top = 16
             Width = 125
             Height = 16
@@ -678,6 +673,16 @@
             ColorFocused = 10252872
             ColorNotFocused = 11776947
           end
+          object cberreicht: TNxCheckBox
+            Left = 384
+            Top = 130
+            Width = 75
+            Height = 21
+            BorderStyle = bsNone
+            TabOrder = 8
+            Text = 'cberreicht'
+            Caption = 'erreicht'
+          end
         end
         object pnotizen: TPanel
           Left = 0
@@ -695,7 +700,7 @@
           TabOrder = 3
           object lcharleft: TLabel
             Left = 641
-            Top = 103
+            Top = 271
             Width = 122
             Height = 13
             Caption = 'noch 612 Zeichen m'#246'glich'
@@ -718,7 +723,7 @@
             Left = 200
             Top = 19
             Width = 563
-            Height = 78
+            Height = 246
             BevelInner = bvLowered
             BevelKind = bkTile
             Color = clWhite
@@ -728,15 +733,18 @@
             Font.Name = 'Tahoma'
             Font.Style = [fsBold]
             ParentFont = False
+            ScrollBars = ssVertical
             TabOrder = 0
+            OnChange = notizenChange
+            OnExit = notizenExit
             OnKeyDown = notizenKeyDown
             FontColorOnEnter = 10252872
             ColorFocused = 10252872
             ColorNotFocused = 11776947
           end
           object NxButton1: TNxButton
-            Left = 512
-            Top = 245
+            Left = 626
+            Top = 317
             Width = 137
             Caption = 'Werte zur'#252'cksetzen'
             Font.Charset = DEFAULT_CHARSET
@@ -749,8 +757,8 @@
             OnClick = NxButton1Click
           end
           object NxButton4: TNxButton
-            Left = 369
-            Top = 245
+            Left = 484
+            Top = 317
             Width = 137
             Caption = 'abschlie'#223'en'
             Font.Charset = DEFAULT_CHARSET
@@ -764,10 +772,10 @@
         end
       end
       object hptermin: TNxHeaderPanel
-        Left = 45
-        Top = 278
-        Width = 888
-        Height = 374
+        Left = 13
+        Top = 800
+        Width = 908
+        Height = 4
         AdaptiveColors = False
         BorderWidth = 0
         Caption = 'Termin festlegen'
@@ -784,9 +792,10 @@
         Options = [hoClickOnBodyExpand, hoCollapseButton]
         ParentHeaderFont = False
         TabOrder = 1
+        Visible = False
         OnCollapse = hpterminCollapse
         OnExpand = hpterminExpand
-        FullWidth = 888
+        FullWidth = 908
         object cbableser: TfComboBox
           Left = 384
           Top = 242
@@ -819,12 +828,10 @@
       TabFont.Height = -11
       TabFont.Name = 'Tahoma'
       TabFont.Style = []
-      ExplicitTop = 0
-      ExplicitWidth = 781
       object perreichtdetails: TPanel
         Left = 0
         Top = 0
-        Width = 1022
+        Width = 778
         Height = 277
         Margins.Left = 5
         Margins.Top = 5
@@ -834,7 +841,6 @@
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitWidth = 781
         object Label18: TLabel
           Left = 29
           Top = 35
@@ -906,7 +912,7 @@
           BevelInner = bvLowered
           BevelKind = bkTile
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
+          Font.Color = 6908265
           Font.Height = -13
           Font.Name = 'Tahoma'
           Font.Style = []
@@ -914,9 +920,9 @@
           TabOrder = 4
           TextHint = 'ttmmjj'
           TabOnEnter = False
-          FontColorOnEnter = 36607
-          ColorFocused = 36607
-          ColorNotFocused = clBlack
+          FontColorOnEnter = 10252872
+          ColorFocused = 10252872
+          ColorNotFocused = 6908265
         end
         object NxMonthCalendar2: TNxMonthCalendar
           Left = 344
@@ -943,11 +949,11 @@
       TabFont.Name = 'Tahoma'
       TabFont.Style = []
       ExplicitTop = 0
-      ExplicitWidth = 781
+      ExplicitHeight = 579
       object ptermindetails: TNxPanel
         Left = 0
         Top = 0
-        Width = 1022
+        Width = 778
         Height = 277
         Margins.Left = 5
         Margins.Top = 5
@@ -963,39 +969,39 @@
         FullRepaint = True
         ParentColor = False
         TabOrder = 0
-        ExplicitWidth = 781
         object Label13: TLabel
           Left = 192
-          Top = 61
+          Top = 58
           Width = 31
           Height = 13
           Caption = 'Datum'
         end
         object Label14: TLabel
           Left = 192
-          Top = 97
+          Top = 94
           Width = 21
           Height = 13
           Caption = 'von '
         end
         object Label3: TLabel
           Left = 192
-          Top = 133
+          Top = 131
           Width = 13
           Height = 13
           Caption = 'bis'
         end
         object mitHA: TCheckBox
-          Left = 567
-          Top = 60
+          Left = 423
+          Top = 57
           Width = 161
           Height = 17
           Caption = 'mit der Hauptablesung'
           TabOrder = 2
           OnClick = mitHAClick
+          OnMouseDown = mitHAMouseDown
         end
         object NxButton2: TNxButton
-          Left = 451
+          Left = 429
           Top = 194
           Width = 75
           Caption = 'speichern'
@@ -1003,7 +1009,7 @@
           OnClick = NxButton2Click
         end
         object NxButton3: TNxButton
-          Left = 558
+          Left = 536
           Top = 194
           Width = 75
           Caption = 'verwerfen'
@@ -1011,8 +1017,8 @@
           OnClick = NxButton3Click
         end
         object nxdate: TNxMonthCalendar
-          Left = 86
-          Top = 417
+          Left = 29
+          Top = 54
           Width = 151
           Height = 163
           Day = 8
@@ -1024,8 +1030,8 @@
           OnChange = nxdateChange
         end
         object externGeplant: TCheckBox
-          Left = 567
-          Top = 83
+          Left = 423
+          Top = 80
           Width = 161
           Height = 17
           Caption = 'extern geplant'
@@ -1034,36 +1040,36 @@
         end
         object edate: TfEdit
           Left = 264
-          Top = 57
+          Top = 54
           Width = 121
           Height = 23
           AutoSize = False
           BevelInner = bvLowered
           BevelKind = bkTile
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
+          Font.Color = 6908265
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
           TabOrder = 5
           TextHint = 'ttmmjj'
           TabOnEnter = False
-          FontColorOnEnter = 36607
-          ColorFocused = 36607
-          ColorNotFocused = clBlack
+          FontColorOnEnter = 10252872
+          ColorFocused = 10252872
+          ColorNotFocused = 6908265
         end
         object evon: TfEdit
           Left = 264
-          Top = 96
+          Top = 89
           Width = 121
           Height = 23
           AutoSize = False
           BevelInner = bvLowered
           BevelKind = bkTile
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
+          Font.Color = 6908265
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
@@ -1071,21 +1077,21 @@
           TextHint = 'ssmm'
           OnExit = evonExit
           TabOnEnter = False
-          FontColorOnEnter = 36607
-          ColorFocused = 36607
-          ColorNotFocused = clBlack
+          FontColorOnEnter = 10252872
+          ColorFocused = 10252872
+          ColorNotFocused = 6908265
         end
         object ebis: TfEdit
           Left = 264
-          Top = 140
+          Top = 126
           Width = 121
           Height = 23
           AutoSize = False
           BevelInner = bvLowered
           BevelKind = bkTile
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
+          Font.Color = 6908265
+          Font.Height = -11
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
@@ -1093,35 +1099,9 @@
           TextHint = 'ssmm'
           OnExit = evonExit
           TabOnEnter = False
-          FontColorOnEnter = 36607
-          ColorFocused = 36607
-          ColorNotFocused = clBlack
-        end
-        object NxTimePicker1: TNxTimePicker
-          Left = 326
-          Top = 58
-          Width = 121
-          Height = 21
-          TabOrder = 8
-          Text = '15:20:00'
-          HideFocus = False
-          Time = 0.638888888888888800
-          HoursString = 'H'
-          MinutesString = 'M'
-          UseStandardMinute = True
-        end
-        object NxHeaderPanel1: TNxHeaderPanel
-          Left = 272
-          Top = 264
-          Caption = ''
-          HeaderFont.Charset = DEFAULT_CHARSET
-          HeaderFont.Color = 6908265
-          HeaderFont.Height = -11
-          HeaderFont.Name = 'Tahoma'
-          HeaderFont.Style = []
-          ParentHeaderFont = False
-          TabOrder = 9
-          FullWidth = 245
+          FontColorOnEnter = 10252872
+          ColorFocused = 10252872
+          ColorNotFocused = 6908265
         end
       end
     end
