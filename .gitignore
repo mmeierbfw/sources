@@ -1,0 +1,14 @@
+*~ 
+*.lock
+*.swp
+*.DS_STORE
+*.out
+*.dpr
+*.dproj
+*.dres
+*.identc*
+*.local
+*.rc
+*.res
+*.tvsconfig
+*.vlb

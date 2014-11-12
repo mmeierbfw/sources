@@ -2,7 +2,7 @@
   Left = 0
   Top = 0
   Width = 784
-  Height = 703
+  Height = 304
   Align = alLeft
   Color = 14933977
   Font.Charset = DEFAULT_CHARSET
@@ -15,13 +15,12 @@
   ParentFont = False
   TabOrder = 0
   OnResize = FrameResize
-  ExplicitHeight = 304
   object pager: TNxPageControl
     AlignWithMargins = True
     Left = 3
     Top = 3
     Width = 778
-    Height = 697
+    Height = 298
     ActivePage = NxTabSheet3
     ActivePageIndex = 2
     Align = alClient
@@ -33,7 +32,6 @@
     Options = [pgBoldActiveTab, pgCloseButton]
     Spacing = 0
     TabHeight = 17
-    ExplicitHeight = 298
     object NxTabSheet1: TNxTabSheet
       Caption = 'NxTabSheet1'
       PageIndex = 0
@@ -43,19 +41,17 @@
       TabFont.Height = -11
       TabFont.Name = 'Tahoma'
       TabFont.Style = []
-      ExplicitHeight = 277
       object FlowPanel1: TFlowPanel
         Left = 0
         Top = 0
         Width = 778
-        Height = 676
+        Height = 277
         Align = alClient
         BevelOuter = bvNone
         Caption = 'FlowPanel1'
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitHeight = 277
         object pliegenschaft: TPanel
           Left = 0
           Top = 0
@@ -832,12 +828,11 @@
       TabFont.Height = -11
       TabFont.Name = 'Tahoma'
       TabFont.Style = []
-      ExplicitHeight = 277
       object perreichtdetails: TPanel
         Left = 0
         Top = 0
         Width = 778
-        Height = 676
+        Height = 277
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -846,7 +841,6 @@
         Color = clWhite
         ParentBackground = False
         TabOrder = 0
-        ExplicitHeight = 277
         object Label18: TLabel
           Left = 29
           Top = 35
@@ -960,7 +954,7 @@
         Left = 0
         Top = 0
         Width = 778
-        Height = 676
+        Height = 277
         Margins.Left = 5
         Margins.Top = 5
         Margins.Right = 5
@@ -975,7 +969,6 @@
         FullRepaint = True
         ParentColor = False
         TabOrder = 0
-        ExplicitHeight = 277
         object Label13: TLabel
           Left = 192
           Top = 58

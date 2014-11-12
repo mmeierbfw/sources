@@ -1021,7 +1021,7 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, bfwpfad: string): boolean;
+function writeToIni(inidaei, bfwpfad: string): boolean;
 var
   ini: TIniFile;
 begin

@@ -53,13 +53,11 @@ function GetAssociation(const DocFileName: string): string;
 function DeleteFiles(const aFile: string): boolean;
 function getCollectorfolder(): string;
 function copytotmp(filename: string): string;
-function writeToIni(inidatei, passwort, kundennummer, sachbearbeiternummer,
-  verzeichnis, postausgang: string; idanzeigen, splitno: boolean)
-  : boolean; overload;
+function writeToIni(passwort, kundennummer, sachbearbeiternummer, verzeichnis,
+  postausgang: string; idanzeigen, splitno: boolean): boolean; overload;
 
-function writeToIni(inidatei, bfwpfad: string): boolean; overload;
-function writeToIni(inidatei, kundennummer, sachbearbeiter: string)
-  : boolean; overload;
+function writeToIni(bfwpfad: string): boolean; overload;
+function writeToIni(kundennummer, sachbearbeiter: string): boolean; overload;
 function readfromini(const inidatei, section, schluessel,
   default: string): string;
 
@@ -679,21 +677,21 @@ end;
 function getlocalfolder(): string;
 var
   Path: string;
-  cons: tbaseconstants;
+  cons: Tbaseconstants;
 begin
-  cons := tbaseconstants.Create;
   try
-    with cons do begin
-      Path := IncludeTrailingPathDelimiter
-        (ShowSpecialFolder(CSIDL_COMMON_APPDATA)) + programmname;
-      if not DirectoryExists(Path) then begin
-        ForceDirectories(Path);
-      end;
-      Result := Path;
 
-    end;
+
+  Path := IncludeTrailingPathDelimiter(ShowSpecialFolder(CSIDL_COMMON_APPDATA))
+    + programmname;
+  if not DirectoryExists(Path) then begin
+    ForceDirectories(Path);
+  end;
+  Result := Path;
   finally
+      finally
 
+  end;
   end;
 end;
 
@@ -980,8 +978,8 @@ begin
   Result := IncludeTrailingPathDelimiter(getlocalfolder) + inidatei;
 end;
 
-function writeToIni(inidatei, passwort, kundennummer, sachbearbeiternummer,
-  verzeichnis, postausgang: string; idanzeigen, splitno: boolean): boolean;
+function writeToIni(passwort, kundennummer, sachbearbeiternummer, verzeichnis,
+  postausgang: string; idanzeigen, splitno: boolean): boolean;
 var
   ini: TIniFile;
   anz: string;
@@ -1005,8 +1003,7 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, kundennummer, sachbearbeiter: string)
-  : boolean; overload;
+function writeToIni(kundennummer, sachbearbeiter: string): boolean; overload;
 var
   ini: TIniFile;
 begin
@@ -1021,7 +1018,7 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, bfwpfad: string): boolean;
+function writeToIni(bfwpfad: string): boolean;
 var
   ini: TIniFile;
 begin

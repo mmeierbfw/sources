@@ -1,0 +1,12 @@
+unit uconstants;
+
+interface
+
+
+type baseconstants = class
+
+end;
+
+implementation
+
+end.
