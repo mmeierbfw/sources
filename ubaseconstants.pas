@@ -33,18 +33,33 @@ type
     runningLabelText = 'Dokumentennummer';
     { uscanningWiaWia }
 
-    table_zwi   = 'scandokumente.zwischenablesung';
-    table_zwi2  = 'scandokumente.zwischenablesung_copy';
-    table_mon   = 'scandokumente.montagen';
-    table_en    = 'scandokumente.energieausweis';
-    table_kos   = 'scandokumente.kostenermittlungen';
-    table_rekl  = 'scandokumente.reklamation';
-    table_ang   = 'scandokumente.angebotsanfrage';
-    table_auf   = 'scandokumente.auftragsanforderung';
-    table_nut   = 'scandokumente.nutzerlisten';
-    table_sonst = 'scandokumente.sonstiges';
-    table_vert  = 'scandokumente.verträge';
+    table_zwi = 'neuescandokumente.zwischenablesung';
+    // table_zwi2  = 'scandokumente.zwischenablesung_copy';
+    table_mon    = 'neuescandokumente.montage';
+    table_en     = 'neuescandokumente.energieausweis';
+    table_kos    = 'neuescandokumente.kostenermittlung';
+    table_rekl   = 'neuescandokumente.reklamation';
+    table_ang    = 'neuescandokumente.angebotsanfrage';
+    table_auf    = 'neuescandokumente.auftragsanforderung';
+    table_nut    = 'neuescandokumente.nutzerliste';
+    table_sonst  = 'neuescandokumente.sonstiges';
+    table_vert   = 'neuescandokumente.vertrag';
+    table_dok    = 'neuescandokumente.dokument';
+    table_email  = 'neuescandokumente.email';
+    table_common = 'neuescandokumente.commontab';
 
+    view_zwi     = 'neuescandokumente.zwischenablesungen';
+    view_mon     = 'neuescandokumente.montagen';
+    view_en      = 'neuescandokumente.energieausweise';
+    view_kos     = 'neuescandokumente.kostenermittlungen';
+    view_rekl    = 'neuescandokumente.reklamationen';
+    view_ang     = 'neuescandokumente.angebotsanfragen';
+    view_auftrag = 'neuescandokumente.aufträge';
+    view_nutzer  = 'neuescandokumente.nutzerlisten';
+    view_sonst   = 'neuescandokumente.sonstigesview';
+    view_ver     = 'neuescandokumente.verträge';
+
+    vertragstyp = 'vertragstyp';
     // muss halt so
     WiaFormatBMP  = '{B96B3CAB-0728-11D3-9D7B-0000F81EF32E}';
     WiaFormatTIFF = '{B96B3CB1-0728-11D3-9D7B-0000F81EF32E}';
