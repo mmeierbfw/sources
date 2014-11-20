@@ -23,8 +23,8 @@ function formatDateTimeOhneTrenner(value: TDatetime): string;
 function formatDateOhneTrenner(value: string): string;
 function isDirEmpty(dirname: string): boolean;
 function isvalidDate(date: string): boolean;
-function gettmpversion(): string;
-function getquerylogger: string;
+function gettmpversion(programmname: string): string;
+function getquerylogger(programmname: string): string;
 function writetofile(textfile, text: string): boolean;
 function isexerunning(const aexename: string): boolean;
 function KillTask(ExeFileName: string): integer;
@@ -32,8 +32,8 @@ function Killprocess(pid: integer): boolean;
 function formatdateohnetrennertmj(value: string): string;
 function formatedatefrom4jto2j(datestring: string): string;
 function getMultilinestring(line: string; len: integer): string;
-function getTmpfile(filename: string): string;
-function gettmpshowfile(filename: string): string;
+function getTmpfile(programmname, filename: string): string;
+function gettmpshowfile(programmname, filename: string): string;
 function Runfile(const aFile, CmdLine: string; WindowState: Word)
   : TShellExecuteInfo;
 
@@ -41,38 +41,38 @@ function replaceslashbybackslash(var astring: string): string;
 function contains(list: tstringlist; attr: string): boolean;
 procedure ListFileDir(Path: string; FileList: tstringlist);
 function ShowSpecialFolder(const AFolder: integer): string;
-function getlocalfolder(): string;
-function getsetuplocation: string;
+function getlocalfolder(programmname: string): string;
+function getsetuplocation(programmname: string): string;
 function ShellWait(const CmdLine: string; WindowState: Word): boolean;
 procedure copydictionary(var source, target: TDictionary<string, string>);
-function getaenderungsfile: string;
-function getauftragsdaten: string;
+function getaenderungsfile(programmname: string): string;
+function getauftragsdaten(programmname: string): string;
 function RenameFileEx(const AOldName, ANewName: string;
   ARenameCheck: boolean = false): boolean;
 function GetAssociation(const DocFileName: string): string;
 function DeleteFiles(const aFile: string): boolean;
-function getCollectorfolder(): string;
-function copytotmp(filename: string): string;
-function writeToIni(inidatei, passwort, kundennummer, sachbearbeiternummer,
+function getCollectorfolder(programmname: string): string;
+function copytotmp(programmname, filename: string): string;
+function writeToIni(programmname,inidatei, passwort, kundennummer, sachbearbeiternummer,
   verzeichnis, postausgang: string; idanzeigen, splitno: boolean)
   : boolean; overload;
 
-function writeToIni(inidatei, bfwpfad: string): boolean; overload;
-function writeToIni(inidatei, kundennummer, sachbearbeiter: string)
+function writeToIni(programmname,inidatei, bfwpfad: string): boolean; overload;
+function writeToIni(programmname,inidatei, kundennummer, sachbearbeiter: string)
   : boolean; overload;
 function readfromini(const inidatei, section, schluessel,
   default: string): string;
 
-function gettmpfolder: string;
+function gettmpfolder(programmname: string): string;
 function GetCurrentVersion: String;
 function getcurrentversionforcheck: string;
 function getcommonDocFolder(): string;
-function getlocalsetupdirection(): string;
+function getlocalsetupdirection(programmname: string): string;
 function getlocaldocfolder: string;
-function getIniFile(inidatei: string): string;
-function getlocaltmpfolder: string;
+function getIniFile(programmanme, inidatei: string): string;
+function getlocaltmpfolder(programmname: string): string;
 function gettable(index: integer): string;
-function getcollectorlistfile: string;
+function getcollectorlistfile(programmname: string): string;
 function getpipefolder: string;
 
 function getlast(const achar: char; str: string): string;
@@ -238,11 +238,11 @@ begin
 
 end;
 
-function gettmpfolder: string;
+function gettmpfolder(programmname: string): string;
 var
   Path: string;
 begin
-  Path := IncludeTrailingPathDelimiter(getlocalfolder);
+  Path := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
   Path := IncludeTrailingPathDelimiter(Path + 'tmp');
   if not SysUtils.DirectoryExists(Path) then SysUtils.ForceDirectories(Path);
   Result := Path;
@@ -277,22 +277,22 @@ begin
     ) + 'pipe';
 end;
 
-function getcollectorlistfile: string;
+function getcollectorlistfile(programmname: string): string;
 var
   listfile: string;
 begin
-  listfile := IncludeTrailingPathDelimiter(getlocalfolder);
+  listfile := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
   if not SysUtils.DirectoryExists(listfile) then
       SysUtils.ForceDirectories(listfile);
   listfile := listfile + 'collectorlist.txt';
   Result   := listfile;
 end;
 
-function getlocaltmpfolder: string;
+function getlocaltmpfolder(programmname: string): string;
 var
   Path: string;
 begin
-  Path := IncludeTrailingPathDelimiter(getlocalfolder);
+  Path := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
   if not SysUtils.DirectoryExists(Path) then SysUtils.ForceDirectories(Path);
   Path := IncludeTrailingPathDelimiter(Path + ' tmp');
   if not SysUtils.DirectoryExists(Path) then SysUtils.ForceDirectories(Path);
@@ -300,11 +300,11 @@ begin
 
 end;
 
-function getCollectorfolder(): string;
+function getCollectorfolder(programmname: string): string;
 var
   collectorfolder: string;
 begin
-  collectorfolder := IncludeTrailingPathDelimiter(getlocalfolder);
+  collectorfolder := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
   if not SysUtils.DirectoryExists(collectorfolder) then
       SysUtils.ForceDirectories(collectorfolder);
   collectorfolder := IncludeTrailingPathDelimiter
@@ -342,11 +342,11 @@ begin
   end;
 end;
 
-function copytotmp(filename: string): string;
+function copytotmp(programmname, filename: string): string;
 var
   tmpfile: string;
 begin
-  tmpfile := getlocaltmpfolder;
+  tmpfile := getlocaltmpfolder(programmname);
   if not SysUtils.DirectoryExists(tmpfile) then
       SysUtils.ForceDirectories(tmpfile);
   tmpfile := tmpfile + ExtractFileName(filename);
@@ -410,15 +410,15 @@ begin
   Result := ShowSpecialFolder(CSIDL_MYDOCUMENTS);
 end;
 
-function getlocalsetupdirection(): string;
+function getlocalsetupdirection(programmname: string): string;
 var
   Path: string;
 begin
-  Path   := IncludeTrailingPathDelimiter(getlocalfolder);
+  Path   := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
   Result := Path + localsetup;
 end;
 
-function getauftragsdaten: string;
+function getauftragsdaten(programmname: string): string;
 var
   Path: string;
   cons: tbaseconstants;
@@ -426,7 +426,7 @@ begin
   cons := tbaseconstants.Create;
   try
     with cons do begin
-      Path := IncludeTrailingPathDelimiter(getlocalfolder);
+      Path := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
       if not SysUtils.DirectoryExists(Path) then
           SysUtils.ForceDirectories(Path);
       Path := Path + auftragsdatei;
@@ -437,7 +437,7 @@ begin
   end;
 end;
 
-function getaenderungsfile: string;
+function getaenderungsfile(programmname: string): string;
 var
   Path: string;
   cons: tbaseconstants;
@@ -445,7 +445,7 @@ begin
   cons := tbaseconstants.Create;
   try
     with cons do begin
-      Path := IncludeTrailingPathDelimiter(getlocalfolder);
+      Path := IncludeTrailingPathDelimiter(getlocalfolder(programmname));
       if not SysUtils.DirectoryExists(Path) then
           SysUtils.ForceDirectories(Path);
       Result := Path + aenderungsdatei;
@@ -482,12 +482,12 @@ begin
 end;
 
 // -------------------------------------------
-function gettmpshowfile(filename: string): string;
+function gettmpshowfile(programmname, filename: string): string;
 var
   Path     : string;
   tmpstring: string;
 begin
-  Path := IncludeTrailingPathDelimiter(gettmpfolder);
+  Path := IncludeTrailingPathDelimiter(gettmpfolder(programmname));
   Path := IncludeTrailingPathDelimiter(Path) + 'show';
   if not DirectoryExists(Path) then ForceDirectories(Path);
   Result := IncludeTrailingPathDelimiter(Path) + filename;
@@ -495,12 +495,12 @@ begin
 end;
 
 // -------------------------------------------
-function getTmpfile(filename: string): string;
+function getTmpfile(programmname, filename: string): string;
 var
   Path     : string;
   tmpstring: string;
 begin
-  Path   := IncludeTrailingPathDelimiter(gettmpfolder);
+  Path   := IncludeTrailingPathDelimiter(gettmpfolder(programmname));
   Path   := IncludeTrailingPathDelimiter(Path) + filename;
   Result := Path;
 end;
@@ -533,12 +533,13 @@ end;
 
 // -------------------------------------------
 
-function getsetuplocation: string;
+function getsetuplocation(programmname: string): string;
 var
   Path: string;
   s   : tstringlist;
 begin
-  Path := IncludeTrailingPathDelimiter(getlocalfolder) + localsetup;
+  Path := IncludeTrailingPathDelimiter(getlocalfolder(programmname)) +
+    localsetup;
   if not DirectoryExists(ExtractFilePath(Path)) then begin
     ForceDirectories(ExtractFilePath(Path));
     s := tstringlist.Create;
@@ -615,12 +616,12 @@ end;
 // FreeMem(VerInfo, VerInfoSize);
 // end;
 
-function gettmpversion(): string;
+function gettmpversion(programmname: string): string;
 var
   pathandfile: string;
   Path       : string;
 begin
-  Path := IncludeTrailingPathDelimiter(getlocaltmpfolder);
+  Path := IncludeTrailingPathDelimiter(getlocaltmpfolder(programmname));
   if not DirectoryExists(Path) then ForceDirectories(Path);
   pathandfile := IncludeTrailingPathDelimiter(Path) + 'version.txt';
 
@@ -676,7 +677,7 @@ begin
   else RaiseLastOSError;
 end;
 
-function getlocalfolder(): string;
+function getlocalfolder(programmname: string): string;
 var
   Path: string;
   cons: tbaseconstants;
@@ -697,9 +698,10 @@ begin
   end;
 end;
 
-function getquerylogger: string;
+function getquerylogger(programmname: string): string;
 begin
-  Result := IncludeTrailingPathDelimiter(getlocalfolder) + 'query.log';
+  Result := IncludeTrailingPathDelimiter(getlocalfolder(programmname)) +
+    'query.log';
 end;
 
 function isexerunning(const aexename: string): boolean;
@@ -974,19 +976,20 @@ begin
   Result := ShFileOperation(sh) = 0;
 end;
 
-function getIniFile(inidatei: string): string;
+function getIniFile(programmanme, inidatei: string): string;
 begin
 
-  Result := IncludeTrailingPathDelimiter(getlocalfolder) + inidatei;
+  Result := IncludeTrailingPathDelimiter(getlocalfolder(programmanme))
+    + inidatei;
 end;
 
-function writeToIni(inidatei, passwort, kundennummer, sachbearbeiternummer,
+function writeToIni(programmname,inidatei, passwort, kundennummer, sachbearbeiternummer,
   verzeichnis, postausgang: string; idanzeigen, splitno: boolean): boolean;
 var
   ini: TIniFile;
   anz: string;
 begin
-  ini := TIniFile.Create(getIniFile(inidatei));
+  ini := TIniFile.Create(getIniFile(programmname,inidatei));
   try
 
     ini.WriteString('Section', 'Passwort', passwort);
@@ -1005,12 +1008,12 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, kundennummer, sachbearbeiter: string)
+function writeToIni(programmname,inidatei, kundennummer, sachbearbeiter: string)
   : boolean; overload;
 var
   ini: TIniFile;
 begin
-  ini := TIniFile.Create(getIniFile(inidatei));
+  ini := TIniFile.Create(getIniFile(programmname,inidatei));
   try
     ini.WriteString('Section', 'Kundennummer', kundennummer);
     ini.WriteString('Section', 'Sachbearbeiter', sachbearbeiter);
@@ -1021,11 +1024,11 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, bfwpfad: string): boolean;
+function writeToIni(programmname,inidatei, bfwpfad: string): boolean;
 var
   ini: TIniFile;
 begin
-  ini := TIniFile.Create(getIniFile(inidatei));
+  ini := TIniFile.Create(getIniFile(programmname,inidatei));
   try
     ini.WriteString('Section', 'bfwpfad', bfwpfad);
     Result := true;
