@@ -5,6 +5,7 @@ interface
 uses
   Classes, SysUtils, TypInfo, StdCtrls, uutils, System.generics.collections,
   ubaseconstants;
+//, udatabasehandler;
 
 type
 
@@ -23,6 +24,8 @@ type
     constructor create();
     function setpropertie(key, value: String): boolean;
     procedure copydictionary(source, target: TDictionary<string, string>);
+    function sendToServer(mytable: string): boolean;
+    function sendtodb(mytable: string): boolean;
   end;
 
   TDocumentZwischenablesung = class(TDocument)
@@ -105,6 +108,24 @@ end;
 function TDocument.getproperties(): TDictionary<string, string>;
 begin
   Result := dict;
+end;
+
+function TDocument.sendtodb(mytable: string): boolean;
+var
+  key, value: string;
+begin
+  for key in dict.Keys.ToArray do begin
+    value := dict.Items[key];
+
+  end;
+end;
+
+function TDocument.sendToServer(mytable: string): boolean;
+begin
+  // mysql inserts
+  sendtodb(mytable);
+
+// ftp aufruf
 end;
 
 function TDocument.setpropertie(key, value: String): boolean;

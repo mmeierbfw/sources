@@ -7,7 +7,7 @@ uses
   {Delphi Encryption Compendium (DEC) 5.x}
   Dialogs, ExtCtrls, StdCtrls, ComCtrls, Buttons, ShellAPI, IniFiles,
   System.Generics.collections, tlhelp32, ShlObj, ActiveX, registry, strutils,
-  FileCtrl, System.math, RegularExpressions;
+  FileCtrl, System.math;
 
 function strcontains(const substr, str: string): boolean;
 function getnotsentlist: string;
@@ -53,13 +53,11 @@ function GetAssociation(const DocFileName: string): string;
 function DeleteFiles(const aFile: string): boolean;
 function getCollectorfolder(): string;
 function copytotmp(filename: string): string;
-function writeToIni(inidatei, passwort, kundennummer, sachbearbeiternummer,
-  verzeichnis, postausgang: string; idanzeigen, splitno: boolean)
-  : boolean; overload;
+function writeToIni(passwort, kundennummer, sachbearbeiternummer, verzeichnis,
+  postausgang: string; idanzeigen, splitno: boolean): boolean; overload;
 
-function writeToIni(inidatei, bfwpfad: string): boolean; overload;
-function writeToIni(inidatei, kundennummer, sachbearbeiter: string)
-  : boolean; overload;
+function writeToIni(bfwpfad: string): boolean; overload;
+function writeToIni(kundennummer, sachbearbeiter: string): boolean; overload;
 function readfromini(const inidatei, section, schluessel,
   default: string): string;
 
@@ -96,7 +94,7 @@ const
 implementation
 
 uses
-  ubaseconstants;
+  uconstants;
 
 function getVersionsnummer(): string;
 var
@@ -317,29 +315,22 @@ end;
 function gettable(index: integer): string;
 var
   table: string;
-  cons : tbaseconstants;
+
 begin
 
-  cons := tbaseconstants.Create;
-  try
-    with cons do begin
-      case index of
-        ZwischenablsgINT: table  := zwischenablesung;
-        MontageINT: table        := montage;
-        ReklamationINT: table    := reklamation;
-        EnergieausweisINT: table := Energieausweis;
-        KostenINT: table         := kostenermittlungen;
-        Nutzerint: table         := nutzerlisten;
-        SonstigesInt: table      := sonstiges;
-        Vertragsint: table       := vertrag;
-        Angebotsint: table       := angebote;
-        Auftragsint: table       := auftrag;
-      end;
-    end;
-  finally
-    Result := table;
-    cons.Free;
+  case index of
+    ZwischenablsgINT: table  := zwischenablesung;
+    MontageINT: table        := montage;
+    ReklamationINT: table    := reklamation;
+    EnergieausweisINT: table := Energieausweis;
+    KostenINT: table         := kostenermittlungen;
+    Nutzerint: table         := nutzerlisten;
+    SonstigesInt: table      := sonstiges;
+    Vertragsint: table       := vertrag;
+    Angebotsint: table       := angebote;
+    Auftragsint: table       := auftrag;
   end;
+  Result := table;
 end;
 
 function copytotmp(filename: string): string;
@@ -421,37 +412,20 @@ end;
 function getauftragsdaten: string;
 var
   Path: string;
-  cons: tbaseconstants;
 begin
-  cons := tbaseconstants.Create;
-  try
-    with cons do begin
-      Path := IncludeTrailingPathDelimiter(getlocalfolder);
-      if not SysUtils.DirectoryExists(Path) then
-          SysUtils.ForceDirectories(Path);
-      Path := Path + auftragsdatei;
-    end;
-  finally
-    Result := Path;
-    cons.Free;
-  end;
+  Path := IncludeTrailingPathDelimiter(getlocalfolder);
+  if not SysUtils.DirectoryExists(Path) then SysUtils.ForceDirectories(Path);
+  Path   := Path + auftragsdatei;
+  Result := Path;
 end;
 
 function getaenderungsfile: string;
 var
   Path: string;
-  cons: tbaseconstants;
 begin
-  cons := tbaseconstants.Create;
-  try
-    with cons do begin
-      Path := IncludeTrailingPathDelimiter(getlocalfolder);
-      if not SysUtils.DirectoryExists(Path) then
-          SysUtils.ForceDirectories(Path);
-      Result := Path + aenderungsdatei;
-    end;
-  finally cons.Free;
-  end;
+  Path := IncludeTrailingPathDelimiter(getlocalfolder);
+  if not SysUtils.DirectoryExists(Path) then SysUtils.ForceDirectories(Path);
+  Result := Path + aenderungsdatei;
 end;
 
 function contains(list: tstringlist; attr: string): boolean;
@@ -679,22 +653,13 @@ end;
 function getlocalfolder(): string;
 var
   Path: string;
-  cons: tbaseconstants;
 begin
-  cons := tbaseconstants.Create;
-  try
-    with cons do begin
-      Path := IncludeTrailingPathDelimiter
-        (ShowSpecialFolder(CSIDL_COMMON_APPDATA)) + programmname;
-      if not DirectoryExists(Path) then begin
-        ForceDirectories(Path);
-      end;
-      Result := Path;
-
-    end;
-  finally
-
+  Path := IncludeTrailingPathDelimiter(ShowSpecialFolder(CSIDL_COMMON_APPDATA))
+    + programmname;
+  if not DirectoryExists(Path) then begin
+    ForceDirectories(Path);
   end;
+  Result := Path;
 end;
 
 function getquerylogger: string;
@@ -864,10 +829,6 @@ var
   datestring      : tstringlist;
   jahr, monat, tag: string;
 begin
-
-  if not(tregex.ismatch(value, '^(31|30|[012]\d)\.(0\d|1[012]|\d).(\d{1,6})$'))
-  then exit;
-
   if value = '' then begin
     Result := '00.00.00';
     exit;
@@ -980,8 +941,8 @@ begin
   Result := IncludeTrailingPathDelimiter(getlocalfolder) + inidatei;
 end;
 
-function writeToIni(inidatei, passwort, kundennummer, sachbearbeiternummer,
-  verzeichnis, postausgang: string; idanzeigen, splitno: boolean): boolean;
+function writeToIni(passwort, kundennummer, sachbearbeiternummer, verzeichnis,
+  postausgang: string; idanzeigen, splitno: boolean): boolean;
 var
   ini: TIniFile;
   anz: string;
@@ -1005,8 +966,7 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, kundennummer, sachbearbeiter: string)
-  : boolean; overload;
+function writeToIni(kundennummer, sachbearbeiter: string): boolean; overload;
 var
   ini: TIniFile;
 begin
@@ -1021,7 +981,7 @@ begin
   end;
 end;
 
-function writeToIni(inidatei, bfwpfad: string): boolean;
+function writeToIni(bfwpfad: string): boolean;
 var
   ini: TIniFile;
 begin

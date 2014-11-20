@@ -33,17 +33,76 @@ type
     runningLabelText = 'Dokumentennummer';
     { uscanningWiaWia }
 
-    table_zwi   = 'scandokumente.zwischenablesung';
-    table_zwi2  = 'scandokumente.zwischenablesung_copy';
-    table_mon   = 'scandokumente.montagen';
-    table_en    = 'scandokumente.energieausweis';
-    table_kos   = 'scandokumente.kostenermittlungen';
-    table_rekl  = 'scandokumente.reklamation';
-    table_ang   = 'scandokumente.angebotsanfrage';
-    table_auf   = 'scandokumente.auftragsanforderung';
-    table_nut   = 'scandokumente.nutzerlisten';
-    table_sonst = 'scandokumente.sonstiges';
-    table_vert  = 'scandokumente.verträge';
+    // table_zwi   = 'scandokumente.zwischenablesung';
+    // table_zwi2  = 'scandokumente.zwischenablesung_copy';
+    // table_mon   = 'scandokumente.montagen';
+    // table_en    = 'scandokumente.energieausweis';
+    // table_kos   = 'scandokumente.kostenermittlungen';
+    // table_rekl  = 'scandokumente.reklamation';
+    // table_ang   = 'scandokumente.angebotsanfrage';
+    // table_auf   = 'scandokumente.auftragsanforderung';
+    // table_nut   = 'scandokumente.nutzerlisten';
+    // table_sonst = 'scandokumente.sonstiges';
+    // table_vert  = 'scandokumente.verträge';
+    //
+    // table_dok         = 'test.dokument';
+    // table_email       = 'test.email';
+    // table_common      = 'test.commontab';
+    // table_zwi_neu     = 'test.zwischenablesung';
+    // table_mon_neu     = 'test.montage';
+    // table_rekl_neu    = 'test.reklamation';
+    // table_en_neu      = 'test.energieausweis';
+    // table_kos_neu     = 'test.kostenermittlung';
+    // table_nut_neu     = 'test.nutzerliste';
+    // table_sonst_neu   = 'test.sonstiges';
+    // table_vert_neu    = 'test.vertrag';
+    // table_ang_neu     = 'test.angebotsanftrage';
+    // table_auftrag_neu = 'test.auftragsanforderung';
+
+    table_zwi   = 'neuescandokumente.zwischenablesung';
+    table_zwi2  = 'neuescandokumente.zwischenablesung_copy';
+    table_mon   = 'neuescandokumente.montagen';
+    table_en    = 'neuescandokumente.energieausweis';
+    table_kos   = 'neuescandokumente.kostenermittlungen';
+    table_rekl  = 'neuescandokumente.reklamation';
+    table_ang   = 'neuescandokumente.angebotsanfrage';
+    table_auf   = 'neuescandokumente.auftragsanforderung';
+    table_nut   = 'neuescandokumente.nutzerlisten';
+    table_sonst = 'neuescandokumente.sonstiges';
+    table_vert  = 'neuescandokumente.verträge';
+
+    table_dok         = 'neuescandokumente.dokument';
+    table_email       = 'neuescandokumente.email';
+    table_common      = 'neuescandokumente.commontab';
+    table_zwi_neu     = 'neuescandokumente.zwischenablesung';
+    table_mon_neu     = 'neuescandokumente.montage';
+    table_rekl_neu    = 'neuescandokumente.reklamation';
+    table_en_neu      = 'neuescandokumente.energieausweis';
+    table_kos_neu     = 'neuescandokumente.kostenermittlung';
+    table_nut_neu     = 'neuescandokumente.nutzerliste';
+    table_sonst_neu   = 'neuescandokumente.sonstiges';
+    table_vert_neu    = 'neuescandokumente.vertrag';
+    table_ang_neu     = 'neuescandokumente.angebotsanftrage';
+    table_auftrag_neu = 'neuescandokumente.auftragsanforderung';
+
+    table_typen     = 'neuescandokumente.typen';
+    typ_name        = 'typen_name';
+
+    view_zwi    = 'neuescandokumente.zwischenablesungen';
+    view_en     = 'neuescandokumente.energieausweise';
+    view_rekl   = 'neuescandokumente.reklamationen';
+    view_nut    = 'neuescandokumente.nutzerlisten';
+    view_mon    = 'neuescandokumente.montagen';
+    view_kosnut = 'neuescandokumente.kostenermittlungen';
+
+    // view_auftraege     = 'test.auftraege';
+    // view_anforderungen = 'test.anforderungen';
+    // view_unbearbeitet  = 'test.auftraegeunbearbeitet';
+
+    view_auftraege     = 'neuescandokumente.auftraege';
+    view_anforderungen = 'neuescandokumente.anforderungen';
+    view_unbearbeitet  = 'neuescandokumente.auftraegeunbearbeitet';
+  vertragstyp        = 'vertragstyp_id';
 
     // muss halt so
     WiaFormatBMP  = '{B96B3CAB-0728-11D3-9D7B-0000F81EF32E}';
@@ -98,35 +157,42 @@ type
       + #13 + '(Betreff, Absender und Empfänger und deren Emailadressen)';
 
     { für Zwischenablesung }
-    zwischenablesung   = 'zwischenablesung';
-    montage            = 'montagen';
-    sonstiges          = 'sonstiges';
-    reklamation        = 'reklamation';
-    Energieausweis     = 'energieausweis';
-    Kostenermittlungen = 'kostenermittlungen';
-    nutzerlisten       = 'nutzerlisten';
-    vertrag            = 'verträge';
-    angebote           = 'angebotsanfrage';
-    auftrag            = 'auftragsanforderung';
+    zwischenablesung   = 'test.zwischenablesung';
+    montage            = 'test.montage';
+    sonstiges          = 'test.sonstiges';
+    reklamation        = 'test.reklamation';
+    Energieausweis     = 'test.energieausweis';
+    Kostenermittlungen = 'test.kostenermittlung';
+    nutzerlisten       = 'test.nutzerliste';
+    vertrag            = 'test.vertrag';
+    angebote           = 'test.angebotsanfrage';
+    auftrag            = 'test.auftragsanforderung';
 
     liegenschaft    = 'liegenschaft';
     Kundennummer    = 'kundennummer';
     Posteingang     = 'posteingang';
-    Vertragsbeginn  = 'Vertragsbeginn';
-    Ablesedatum     = 'Ablesedatum';
-    Nutzernummer    = 'Nutzernummer';
+    Vertragsbeginn  = 'vertragsbeginn';
+    Ablesedatum     = 'ablesedatum';
+    Nutzernummer    = 'nutzernummer';
     Nutzername1     = 'Nutzername1';
     nutzername2     = 'Nutzername2';
-    nutzername      = 'Nutzername';
+    nutzername      = 'nutzername';
     erledigt        = 'erledigt';
-    Notizen         = 'Notizen';
-    Auftragsnummer  = 'Auftragsnummer';
-    Dateiname       = 'Dateiname';
+    Notizen         = 'notizen';
+    Auftragsnummer  = 'auftragsnummer';
+    Dateiname       = 'dateiname';
     id              = 'Dokumentid';
     sachbearbeiter  = 'sachbearbeiter';
     datumgepr       = 'datumgeprueft';
     sammelordner    = 'Sammelordner';
-    abrechnungsende = 'Abrechnungsende';
+    abrechnungsende = 'abrechnungsende';
+
+    { Dokumenttabelle }
+    dok_id   = 'dokument_id';
+    ablagenr = 'ablagenr';
+    datname  = 'dateiname';
+//    typ_name = 'typen_name';
+
     { für Montage }
     Gueltigkeitsdatum = 'Gueltigkeitsdatum';
     Montagedatum      = 'Einbaudatum';
@@ -141,12 +207,12 @@ type
     erledigtstr      = '1';
 
     pseudoliegenschaft = 'Pseudoliegenschaft';
-    strasse            = 'Strasse';
-    ort                = 'Ort';
-    plz                = 'PLZ';
+    strasse            = 'strasse';
+    ort                = 'ort';
+    plz                = 'plz';
 
     { für neue Aufträge }
-    auftragstyp = 'Auftragstyp';
+    auftragstyp = 'auftragstyp';
     { Dokumentarten }
     ZwischenablsgINT  = 0;
     MontageINT        = 1;
@@ -160,11 +226,11 @@ type
     Auftragsint       = 9;
 
     { für Email }
-    Absendername     = 'Absendername';
-    Absenderadresse  = 'Absenderadresse';
-    Empfängername    = 'Empfängername';
-    Empfängeradresse = 'Empfängeradresse';
-    Betref           = 'Betreff';
+    Absendername     = 'absendername';
+    Absenderadresse  = 'absenderadresse';
+    Empfängername    = 'empfängername';
+    Empfängeradresse = 'empfängeradresse';
+    Betref           = 'betreff';
 
     { für anrufe }
     Anrufer       = 'Anrufer';
@@ -215,7 +281,7 @@ type
     scannerverzeichnis = 'scanner\';
 
     keinedokumentetext = 'Keine Dokumente im Sammelverzeichnis';
-    programmname       = 'ScannerProgramm';
+    // programmname       = 'ScannerProgramm';
 
     editmaskdatum                           = '00/00/00;';
     dokumentarten: array [0 .. 5] of string = (zwischenablesung, sonstiges,
